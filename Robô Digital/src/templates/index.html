@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robô Digital | Atividade Ponderada</title>
+</head>
+<body>
+    <div class="principal">
+        <h1>Simulação de Robô Digital</h1>
+        <div class="joystick">
+            <form method="POST" action="/move">
+
+                <label for="x">X:</label>
+                <input type="number" id="x" name="x"><br><br>
+                <label for="y">Y:</label>
+                <input type="number" id="y" name="y"><br><br>
+                <label for="z">Z:</label>
+                <input type="number" id="z" name="z"><br><br>
+                <label for="r">R:</label>
+                <input type="number" id="r" name="r"><br><br>
+                <label for="j1">J1:</label>
+                <input type="number" id="j1" name="j1"><br><br>
+                <label for="j2">J2:</label>
+                <input type="number" id="j2" name="j2"><br><br>
+                <label for="J3">J3:</label>
+                <input type="number" id="j3" name="j3"><br><br>
+                <label for="j4">J4:</label>
+                <input type="number" id="j4" name="j4"><br><br>
+                <input type="submit" value="Definir coordenadas">
+
+            </form>
+        </div>
+        <div class="posicao_atual">
+            <div>
+
+                {% if x is none or y is none or z is none or r is none %}
+                <p>As coordenadas ainda não foram modificadas.</p>
+                {% else %}
+            
+                <p>X: {{ x }}</p>
+                <p>Y: {{ y }}</p>
+                <p>Z: {{ z }}</p>
+                <p>R: {{ r }}</p>
+                <p>J1: {{ j1 }}</p>
+                <p>J2: {{ j2 }}</p>
+                <p>J3: {{ j3 }}</p>
+                <p>J4: {{ j4 }}</p>
+            
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
