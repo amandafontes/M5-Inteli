@@ -7,9 +7,39 @@
     <title>Robô Digital | Atividade Ponderada</title>
 </head>
 <body>
+
     <div class="principal">
         <h1>Simulação de Robô Digital</h1>
-        <div class="joystick">
+        <div class="joystick" style="width:20%">
+
+            <form action="{{ url_for('joystick') }}" method="POST">
+                <input type="radio" name="direcao" value="up">X +</input>
+                <input type="radio" name="direcao" value="down">X -</input>
+                <input type="radio" name="direcao" value="right">Y +</input>
+                <input type="radio" name="direcao" value="left">Y -</input>
+                <input type="radio" name="direcao" value="front">Z +</input>
+                <input type="radio" name="direcao" value="back">Z -</input>
+                <button type="submit">Mover</button>
+            </form>
+
+            <!-- <form action="{{ url_for('joystick') }}" method="POST">
+                <svg width="100%" height="100%" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="50" fill="url(#grad1)" />
+                    <circle cx="50" cy="50" r="47" fill="url(#grad2)" stroke="black" stroke-width="1.5px" />
+                    <circle cx="50" cy="50" r="44" fill="url(#grad3)" />
+                    <circle cx="50" cy="50" r="20" fill="#cccccc" stroke="black" stroke-width="1px" onclick="alert('CENTER');" />
+                    <path d="M50,14 54,22 46,22Z" fill="rgba(0,0,0,0.8)" onclick="alert('UP');" />
+                    <path d="M50,86 54,78 46,78Z" fill="rgba(0,0,0,0.8)" onclick="alert('DOWN');" />
+                    <path d="M14,50 22,54 22,46Z" fill="rgba(0,0,0,0.8)" onclick="alert('LEFT');" />
+                    <path d="M86,50 78,54 78,46Z" fill="rgba(0,0,0,0.8)" onclick="alert('RIGHT');" />
+                </svg>
+            </form> -->
+
+            <!-- Referencia para joystick: https://stackoverflow.com/questions/34639583/how-can-i-create-responsive-joystick-layout-buttons-in-html/34644069#34644069?newreg=d1f0ec4b574b4f6abe4a1de9f80cd1cb -->
+
+        </div>
+
+        <div class="input_coordenadas">
             <form method="POST" action="/move">
 
                 <label for="x">X:</label>
@@ -18,7 +48,7 @@
                 <input type="number" id="y" name="y"><br><br>
                 <label for="z">Z:</label>
                 <input type="number" id="z" name="z"><br><br>
-                <label for="r">R:</label>
+                <!-- <label for="r">R:</label>
                 <input type="number" id="r" name="r"><br><br>
                 <label for="j1">J1:</label>
                 <input type="number" id="j1" name="j1"><br><br>
@@ -27,26 +57,28 @@
                 <label for="J3">J3:</label>
                 <input type="number" id="j3" name="j3"><br><br>
                 <label for="j4">J4:</label>
-                <input type="number" id="j4" name="j4"><br><br>
+                <input type="number" id="j4" name="j4"><br><br> -->
                 <input type="submit" value="Definir coordenadas">
 
             </form>
         </div>
+
         <div class="posicao_atual">
             <div>
 
-                {% if x is none or y is none or z is none or r is none %}
+                {% if x is none or y is none or z is none %}
                 <p>As coordenadas ainda não foram modificadas.</p>
                 {% else %}
             
                 <p>X: {{ x }}</p>
                 <p>Y: {{ y }}</p>
                 <p>Z: {{ z }}</p>
-                <p>R: {{ r }}</p>
+                <!-- <p>R: {{ r }}</p>
+
                 <p>J1: {{ j1 }}</p>
                 <p>J2: {{ j2 }}</p>
                 <p>J3: {{ j3 }}</p>
-                <p>J4: {{ j4 }}</p>
+                <p>J4: {{ j4 }}</p> -->
             
                 {% endif %}
 
