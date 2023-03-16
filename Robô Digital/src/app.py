@@ -27,7 +27,8 @@ def index(): # Função que inicializa os valores das coordenadas x, y e z do ro
     # j3 = session.get('j3', None)
     # j4 = session.get('j4', None)
 
-    return render_template('index.html', x=x, y=y, z=z, r=r, j1=j1, j2=j2, j3=j3, j4=j4) # Retorna o template principal, 'index.html'
+    return render_template('index.html', x=x, y=y, z=z)
+    # return render_template('index.html', x=x, y=y, z=z, r=r, j1=j1, j2=j2, j3=j3, j4=j4) # Retorna o template principal, 'index.html'
 
 # Rota correspondente ao joystick, uma das alternativas para movimentar o robô
 @app.route('/joystick', methods=['POST'])
