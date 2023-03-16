@@ -36,10 +36,28 @@ def joystick():
 
     direction = request.form['direcao'] # Processa o movimento realizado pelo joystick
 
-    session['y'] = int(session['y'])
-    session['x'] = int(session['x'])
-    session['z'] = int(session['z'])
+    # Atribui às variáveis x, y e z o atual valor das coordenadas
+    y = request.form.get('y', session.get('y', '0'))
+    x = request.form.get('x', session.get('x', '0'))
+    z = request.form.get('z', session.get('z', '0'))
 
+    # Realiza verificação para saber se existe um valor atual em cada coordenada
+    if y:
+        session['y'] = int(y)
+    else:
+        session['y'] = 0
+
+    if x:
+        session['x'] = int(x)
+    else:
+        session['x'] = 0
+
+    if z:
+        session['z'] = int(z)
+    else:
+        session['z'] = 0
+
+    # Realiza verificação para saber qual foi o input do usuário no joystick e modifica a coordenada
     if direction == 'up':
         session['y'] += 1
 
@@ -56,9 +74,9 @@ def joystick():
         session['z'] += 1
 
     if direction == 'back':
-        session['z'] -+ 1
+        session['z'] -= 1
     
-    # Obter as coordenadas atuais do robô
+    # Obter as coordenadas atualizadas do robô
     x = session.get('x', 0)
     y = session.get('y', 0)
     z = session.get('z', 0)
@@ -68,7 +86,7 @@ def joystick():
         
 # Rota correspondente à atualização das coordenadas do robô, manipuladas pelo usuário
 @app.route('/move', methods=['POST'])
-def move():
+def definir_coordenadas():
 
     x = request.form['x']
     y = request.form['y']
@@ -78,6 +96,25 @@ def move():
     # j2 = request.form['j2']
     # j3 = request.form['j3']
     # j4 = request.form['j4']
+
+    # if y:
+    #     session['y'] = int(y)
+    # else:
+    #     session['y'] = 0
+
+    # if x:
+    #     session['x'] = int(x)
+    # else:
+    #     session['x'] = 0
+
+    # if z:
+    #     session['z'] = int(z)
+    # else:
+    #     session['z'] = 0
+
+    # session['y'] = int(session['y'])
+    # session['x'] = int(session['x'])
+    # session['z'] = int(session['z'])
 
     # Armazenando as coordenadas em session variables
     session['x'] = x
@@ -90,7 +127,7 @@ def move():
     # session['j4'] = j4
 
     # Redirecionando para o URL principal
-    return redirect('/')
+    return render_template('index.html', x=x, y=y, z=z)
     
     '''
     return 'Movendo o robô para as coordenadas X={}, Y={}, Z={}, R={} e angulações J1={}, J2={}, J3={}, J4{}'.format(x, y, z, r, j1, j2, j3, j4)

@@ -13,13 +13,13 @@
         <div class="joystick" style="width:20%">
 
             <form action="{{ url_for('joystick') }}" method="POST">
-                <input type="radio" name="direcao" value="up">X +</input>
-                <input type="radio" name="direcao" value="down">X -</input>
-                <input type="radio" name="direcao" value="right">Y +</input>
-                <input type="radio" name="direcao" value="left">Y -</input>
-                <input type="radio" name="direcao" value="front">Z +</input>
-                <input type="radio" name="direcao" value="back">Z -</input>
-                <button type="submit">Mover</button>
+                <button type="submit" name="direcao" value="up">Y +</button>
+                <button type="submit" name="direcao" value="down">Y -</button>
+                <button type="submit" name="direcao" value="right">X +</button>
+                <button type="submit" name="direcao" value="left">X -</button>
+                <button type="submit" name="direcao" value="front">Z +</button>
+                <button type="submit" name="direcao" value="back">Z -</button>
+                <!-- <button type="submit">Mover</button> -->
             </form>
 
             <!-- <form action="{{ url_for('joystick') }}" method="POST">
