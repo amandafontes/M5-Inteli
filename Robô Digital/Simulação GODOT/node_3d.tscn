@@ -1,0 +1,61 @@
+[gd_scene load_steps=4 format=3 uid="uid://ckfjdfh4sgm4f"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kgp7u"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_oek3r"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_oq56f"]
+radius = 1.703
+
+[node name="Node3D" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_kgp7u")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="StaticBody3D"]
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.060854, 3, 3.51725)
+gravity_scale = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0347755, 0.140568, 0.00412989)
+shape = SubResource("BoxShape3D_oek3r")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.033313, 0.13626, 0.0181869)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.795442, 0, -0.60603, 0, 1, 0, 0.60603, 0, 0.795442, -6.04442, 4.95527, 9.76972)
+
+[node name="PinJoint3D2" type="PinJoint3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.128651, 4.39036, -0.232004)
+node_a = NodePath("../RigidBody3D2")
+node_b = NodePath("../RigidBody3D")
+
+[node name="PinJoint3D" type="PinJoint3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.128651, 0.137841, -0.232004)
+node_a = NodePath("../StaticBody3D")
+node_b = NodePath("../RigidBody3D")
+
+[node name="RigidBody3D2" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0.517247)
+gravity_scale = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0331594, -0.061883, -0.163537)
+shape = SubResource("SphereShape3D_oq56f")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.95339, 0.353434)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+offset_left = 900.0
+offset_top = 541.0
+offset_right = 1128.0
+offset_bottom = 619.0
+text = "Alterar Posição"
