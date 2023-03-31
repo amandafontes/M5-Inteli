@@ -7,22 +7,36 @@
     <title>Robô Digital | Atividade Ponderada</title>
 </head>
 <body>
-
     <div class="principal">
         <h1>Simulação de Robô Digital</h1>
-        <div class="joystick" style="width:20%">
+        <div class="input_coordenadas">
+            <form method="POST" action="/move">
 
-            <form action="{{ url_for('joystick') }}" method="POST">
+                <label for="x">X:</label>
+                <input type="number" id="x" name="x"><br><br>
+                <label for="y">Y:</label>
+                <input type="number" id="y" name="y"><br><br>
+                <label for="z">Z:</label>
+                <input type="number" id="z" name="z"><br><br>
+            
+                <input type="submit" value="Definir coordenadas">
+
+            </form>
+        </div>
+        <div class="joystick" style="width:20%">
+            <br>
+            <form action="/joystick" method="POST">
                 <button type="submit" name="direcao" value="up">Y +</button>
                 <button type="submit" name="direcao" value="down">Y -</button>
                 <button type="submit" name="direcao" value="right">X +</button>
                 <button type="submit" name="direcao" value="left">X -</button>
                 <button type="submit" name="direcao" value="front">Z +</button>
                 <button type="submit" name="direcao" value="back">Z -</button>
-                <!-- <button type="submit">Mover</button> -->
+                <button type="submit">Mover</button> 
             </form>
+            <br>
 
-            <!-- <form action="{{ url_for('joystick') }}" method="POST">
+            <!-- <form action="/joystick" method="POST">
                 <svg width="100%" height="100%" viewBox="0 0 100 100">
                     <circle cx="50" cy="50" r="50" fill="url(#grad1)" />
                     <circle cx="50" cy="50" r="47" fill="url(#grad2)" stroke="black" stroke-width="1.5px" />
@@ -37,32 +51,7 @@
 
             <!-- Referencia para joystick: https://stackoverflow.com/questions/34639583/how-can-i-create-responsive-joystick-layout-buttons-in-html/34644069#34644069?newreg=d1f0ec4b574b4f6abe4a1de9f80cd1cb -->
 
-        </div>
-
-        <div class="input_coordenadas">
-            <form method="POST" action="/move">
-
-                <label for="x">X:</label>
-                <input type="number" id="x" name="x"><br><br>
-                <label for="y">Y:</label>
-                <input type="number" id="y" name="y"><br><br>
-                <label for="z">Z:</label>
-                <input type="number" id="z" name="z"><br><br>
-                <!-- <label for="r">R:</label>
-                <input type="number" id="r" name="r"><br><br>
-                <label for="j1">J1:</label>
-                <input type="number" id="j1" name="j1"><br><br>
-                <label for="j2">J2:</label>
-                <input type="number" id="j2" name="j2"><br><br>
-                <label for="J3">J3:</label>
-                <input type="number" id="j3" name="j3"><br><br>
-                <label for="j4">J4:</label>
-                <input type="number" id="j4" name="j4"><br><br> -->
-                <input type="submit" value="Definir coordenadas">
-
-            </form>
-        </div>
-
+        <!-- <div class="input_coordenadas">
         <div class="posicao_atual">
             <div>
 
@@ -73,16 +62,33 @@
                 <p>X: {{ x }}</p>
                 <p>Y: {{ y }}</p>
                 <p>Z: {{ z }}</p>
-                <!-- <p>R: {{ r }}</p>
-
-                <p>J1: {{ j1 }}</p>
-                <p>J2: {{ j2 }}</p>
-                <p>J3: {{ j3 }}</p>
-                <p>J4: {{ j4 }}</p> -->
+                <p>R: {{ r }}</p>
             
                 {% endif %}
 
             </div>
+        </div> -->
+        </div>
+        <div class="historico_coordenadas">
+            <br>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Coordenada X</th>
+                        <th>Coordenada Y</th>
+                        <th>Coordenada Z</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for coordenada in coordenadas %}
+                    <tr>
+                        <td>{{coordenada.x}}</td>
+                        <td>{{coordenada.y}}</td>
+                        <td>{{coordenada.z}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </body>

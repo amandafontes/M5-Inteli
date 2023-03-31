@@ -19,7 +19,6 @@ def move():
     j2 = request.form['j2']
     j3 = request.form['j3']
     j4 = request.form['j4']
-
     
     # Estabelecendo conexão com a base de dados
     conn = sqlite3.connect('coordenadas.db')
