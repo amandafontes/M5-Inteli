@@ -1,10 +1,12 @@
 # Importando os módulos Flask e SQL Alchemy necessários
 
 from flask import Flask, render_template, request, session, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models.base import Base
 from models.coordenadas import Coordenadas
+import os
 
 # Inicializando uma aplicação Flask
 app = Flask(__name__)
@@ -12,7 +14,7 @@ app = Flask(__name__)
 # Definindo uma chave secreta
 app.secret_key = 'my_secret_key' 
 
-# CRIAÇÃO DO BANCO DE DADOS
+# Criando um banco de dados SQLite
 
 engine = create_engine('sqlite:///coordenadas.db')
 
@@ -52,71 +54,109 @@ def index(): # Função que inicializa os valores das coordenadas x, y e z do ro
 
 # Rota correspondente ao joystick, uma das alternativas para movimentar o robô
 
+# @app.route('/joystick', methods=['POST'])
+# def joystick():
+
+#     direction = request.form['direcao'] # Processa o movimento realizado pelo joystick
+
+#     # Atribui às variáveis x, y e z o atual valor das coordenadas
+#     x = request.form.get('x', session.get('x', '0'))
+#     y = request.form.get('y', session.get('y', '0'))
+#     z = request.form.get('z', session.get('z', '0'))
+
+#     # # Realiza verificação para saber se existe um valor atual em cada coordenada
+#     # if y:
+#     #     session['y'] = int(y)
+#     # else:
+#     #     session['y'] = 0
+
+#     # if x:
+#     #     session['x'] = int(x)
+#     # else:
+#     #     session['x'] = 0
+
+#     # if z:
+#     #     session['z'] = int(z)
+#     # else:
+#     #     session['z'] = 0
+
+#     # Realiza verificação para saber qual foi o input do usuário no joystick e modifica a coordenada
+#     if direction == 'up':
+#         session['y'] += 1
+
+#     if direction == 'down':
+#         session['y'] -= 1
+
+#     if direction == 'right':
+#         session['x'] += 1
+
+#     if direction == 'left':
+#         session['x'] -= 1
+
+#     if direction == 'front':
+#         session['z'] += 1
+
+#     if direction == 'back':
+#         session['z'] -= 1
+    
+#     # Obter as coordenadas atualizadas do robô
+#     x = session.get('x', 0)
+#     y = session.get('y', 0)
+#     z = session.get('z', 0)
+
+#     registro = Coordenadas(x = x, y = y, z = z)
+#     session_db.add(registro)
+#     session_db.commit()
+
+#     # Renderiza o template com as coordenadas atualizadas
+#     coordenadas = session_db.query(Coordenadas).all()
+#     return render_template('index.html', coordenadas=coordenadas)
+
 @app.route('/joystick', methods=['POST'])
 def joystick():
-
+    
     direction = request.form['direcao'] # Processa o movimento realizado pelo joystick
 
     # Atribui às variáveis x, y e z o atual valor das coordenadas
-    x = request.form.get('x', session.get('x', '0'))
-    y = request.form.get('y', session.get('y', '0'))
-    z = request.form.get('z', session.get('z', '0'))
-
-    # Realiza verificação para saber se existe um valor atual em cada coordenada
-    if y:
-        session['y'] = int(y)
-    else:
-        session['y'] = 0
-
-    if x:
-        session['x'] = int(x)
-    else:
-        session['x'] = 0
-
-    if z:
-        session['z'] = int(z)
-    else:
-        session['z'] = 0
-
+    posicao_atual = session_db.query(Coordenadas).order_by(Coordenadas.id.desc()).first()
+    x = posicao_atual.x
+    y = posicao_atual.y
+    z = posicao_atual.z
+    
     # Realiza verificação para saber qual foi o input do usuário no joystick e modifica a coordenada
     if direction == 'up':
-        session['y'] += 1
+        y += 1
 
     if direction == 'down':
-        session['y'] -= 1
+        y -= 1
 
     if direction == 'right':
-        session['x'] += 1
+        x += 1
 
     if direction == 'left':
-        session['x'] -= 1
+        x -= 1
 
     if direction == 'front':
-        session['z'] += 1
+        z += 1
 
     if direction == 'back':
-        session['z'] -= 1
-    
-    # Obter as coordenadas atualizadas do robô
-    x = session.get('x', 0)
-    y = session.get('y', 0)
-    z = session.get('z', 0)
+        z -= 1
 
-    registro = Coordenadas(x = x, y = y, z = z)
-    session_db.add(registro)
+    nova_posicao = Coordenadas(x = x, y = y, z = z)
+    session_db.add(nova_posicao)
     session_db.commit()
 
     # Renderiza o template com as coordenadas atualizadas
     coordenadas = session_db.query(Coordenadas).all()
     return render_template('index.html', coordenadas=coordenadas)
-        
-# # Rota correspondente à atualização das coordenadas do robô, manipuladas pelo usuário
+
+# Rota correspondente à atualização das coordenadas do robô, manipuladas pelo usuário
 @app.route('/move', methods=['POST'])
 def definir_coordenadas():
 
-    x = request.form['x']
-    y = request.form['y']
-    z = request.form['z']
+    x = int(request.form['x'])
+    y = int(request.form['y'])
+    z = int(request.form['z'])
 
     # Set initial values to 0 if not already set
 
@@ -133,22 +173,20 @@ def definir_coordenadas():
     coordenadas = session_db.query(Coordenadas).all() # Retorna uma lista de objetos Coordenadas
     return render_template('index.html', coordenadas=coordenadas)
 
-# @app.route('/reset', methods=['POST'])
-# def resetar_coordenadas():
+# Rota para resetar a posição do robô
+@app.route('/reset', methods=['POST'])
+def resetar_coordenadas():
 
-#     x = request.form.get('x', session.get('x', '0'))
-#     y = request.form.get('y', session.get('y', '0'))
-#     z = request.form.get('z', session.get('z', '0'))
+    session_db.query(Coordenadas).delete()
+    session_db.commit()
 
-#     # Inserindo no banco de dados: ---------------------------------------------------------------------------------
+    registro = Coordenadas(x = 0, y = 0, z = 0)
+    session_db.add(registro)
+    session_db.commit()
 
-#     registro = Coordenadas(x = 0, y = 0, z = 0)
-#     session_db.add(registro)
-#     session_db.commit()
+    coordenadas = session_db.query(Coordenadas).all()
+    return render_template('index.html', coordenadas=coordenadas)
 
-#     coordenadas = session_db.query(Coordenadas).all() # Retorna uma lista de objetos Coordenadas
-#     return render_template('index.html', coordenadas=coordenadas)
-    
 # Mantém a aplicação rodando
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port= 3000, debug=True)

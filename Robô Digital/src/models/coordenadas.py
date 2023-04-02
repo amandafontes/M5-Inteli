@@ -1,3 +1,4 @@
+import sqlalchemy
 from models.base import Base
 from sqlalchemy import Column, Integer, String, Boolean, Float
 
