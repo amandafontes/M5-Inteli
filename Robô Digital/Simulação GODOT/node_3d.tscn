@@ -63,6 +63,7 @@ offset_bottom = 619.0
 text = "Alterar Posição"
 script = ExtResource("1_367r4")
 
-[node name="HTTPRequest" type="HTTPRequest" parent="."]
+[node name="HTTPRequest" type="HTTPRequest" parent="CanvasLayer/Request_button"]
 
-[connection signal="request_completed" from="HTTPRequest" to="CanvasLayer/Request_button" method="_on_http_request_request_completed"]
+[connection signal="button_down" from="CanvasLayer/Request_button" to="CanvasLayer/Request_button" method="_on_Request_button_button_down"]
+[connection signal="request_completed" from="CanvasLayer/Request_button/HTTPRequest" to="CanvasLayer/Request_button" method="_on_http_request_request_completed"]

@@ -1,6 +1,6 @@
 # Importando os módulos Flask e SQL Alchemy necessários
 
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask, render_template, request, session, redirect, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -126,6 +126,19 @@ def resetar_coordenadas():
 
     coordenadas = session_db.query(Coordenadas).all()
     return render_template('index.html', coordenadas=coordenadas)
+
+# Rota para retornar a última posição do robô
+@app.route('/posicao_atual', methods=['GET'])
+def retornar_posicao():
+    
+    posicao_atual = session_db.query(Coordenadas).order_by(Coordenadas.id.desc()).first()
+
+    if posicao_atual is not None:
+        coordenada = {"x": posicao_atual.x, "y": posicao_atual.y, "z": posicao_atual.z}
+    else:
+        coordenada = {"x": 0, "y": 0, "z": 0}
+
+    return jsonify(coordenada)
 
 # Mantém a aplicação rodando
 if __name__ == '__main__':
