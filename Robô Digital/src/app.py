@@ -50,67 +50,7 @@ def index(): # Função que inicializa os valores das coordenadas x, y e z do ro
     return render_template('index.html', coordenadas=coordenadas)
     # Retorna o template principal, 'index.html'
 
-# ---------------------------------------------------------------------------------------------
-
 # Rota correspondente ao joystick, uma das alternativas para movimentar o robô
-
-# @app.route('/joystick', methods=['POST'])
-# def joystick():
-
-#     direction = request.form['direcao'] # Processa o movimento realizado pelo joystick
-
-#     # Atribui às variáveis x, y e z o atual valor das coordenadas
-#     x = request.form.get('x', session.get('x', '0'))
-#     y = request.form.get('y', session.get('y', '0'))
-#     z = request.form.get('z', session.get('z', '0'))
-
-#     # # Realiza verificação para saber se existe um valor atual em cada coordenada
-#     # if y:
-#     #     session['y'] = int(y)
-#     # else:
-#     #     session['y'] = 0
-
-#     # if x:
-#     #     session['x'] = int(x)
-#     # else:
-#     #     session['x'] = 0
-
-#     # if z:
-#     #     session['z'] = int(z)
-#     # else:
-#     #     session['z'] = 0
-
-#     # Realiza verificação para saber qual foi o input do usuário no joystick e modifica a coordenada
-#     if direction == 'up':
-#         session['y'] += 1
-
-#     if direction == 'down':
-#         session['y'] -= 1
-
-#     if direction == 'right':
-#         session['x'] += 1
-
-#     if direction == 'left':
-#         session['x'] -= 1
-
-#     if direction == 'front':
-#         session['z'] += 1
-
-#     if direction == 'back':
-#         session['z'] -= 1
-    
-#     # Obter as coordenadas atualizadas do robô
-#     x = session.get('x', 0)
-#     y = session.get('y', 0)
-#     z = session.get('z', 0)
-
-#     registro = Coordenadas(x = x, y = y, z = z)
-#     session_db.add(registro)
-#     session_db.commit()
-
-#     # Renderiza o template com as coordenadas atualizadas
-#     coordenadas = session_db.query(Coordenadas).all()
-#     return render_template('index.html', coordenadas=coordenadas)
 
 @app.route('/joystick', methods=['POST'])
 def joystick():
