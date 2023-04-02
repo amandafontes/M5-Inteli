@@ -5,7 +5,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models.base import Base
 from models.coordenadas import Coordenadas
-# from data.funcoes import Posicao
 
 # Inicializando uma aplicação Flask
 app = Flask(__name__)
@@ -26,6 +25,20 @@ session_db = Session()# Criando uma seção, uma forma de conversar com o SQLite
 
 Base.metadata.create_all(engine)
 
+# Definindo a posição inicial do robô
+
+def inicializar_posicao():
+
+    num_registros = session_db.query(Coordenadas).count()
+
+    if num_registros == 0:
+        posicao_inicial = Coordenadas(x = 0, y = 0, z = 0)
+
+        session_db.add(posicao_inicial)
+        session_db.commit()
+
+inicializar_posicao()
+
 # Criando rota principal
 @app.route('/')
 def index(): # Função que inicializa os valores das coordenadas x, y e z do robô[
@@ -45,8 +58,8 @@ def joystick():
     direction = request.form['direcao'] # Processa o movimento realizado pelo joystick
 
     # Atribui às variáveis x, y e z o atual valor das coordenadas
-    y = request.form.get('y', session.get('y', '0'))
     x = request.form.get('x', session.get('x', '0'))
+    y = request.form.get('y', session.get('y', '0'))
     z = request.form.get('z', session.get('z', '0'))
 
     # Realiza verificação para saber se existe um valor atual em cada coordenada
@@ -104,6 +117,13 @@ def definir_coordenadas():
     x = request.form['x']
     y = request.form['y']
     z = request.form['z']
+
+    # Set initial values to 0 if not already set
+
+    session['x'] = session.get('x', 0)
+    session['y'] = session.get('y', 0)
+    session['z'] = session.get('z', 0)
+    
     # Inserindo no banco de dados: ---------------------------------------------------------------------------------
 
     registro = Coordenadas(x = x, y = y, z = z)
@@ -112,6 +132,22 @@ def definir_coordenadas():
 
     coordenadas = session_db.query(Coordenadas).all() # Retorna uma lista de objetos Coordenadas
     return render_template('index.html', coordenadas=coordenadas)
+
+# @app.route('/reset', methods=['POST'])
+# def resetar_coordenadas():
+
+#     x = request.form.get('x', session.get('x', '0'))
+#     y = request.form.get('y', session.get('y', '0'))
+#     z = request.form.get('z', session.get('z', '0'))
+
+#     # Inserindo no banco de dados: ---------------------------------------------------------------------------------
+
+#     registro = Coordenadas(x = 0, y = 0, z = 0)
+#     session_db.add(registro)
+#     session_db.commit()
+
+#     coordenadas = session_db.query(Coordenadas).all() # Retorna uma lista de objetos Coordenadas
+#     return render_template('index.html', coordenadas=coordenadas)
     
 # Mantém a aplicação rodando
 if __name__ == '__main__':

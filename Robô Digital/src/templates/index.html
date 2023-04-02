@@ -26,13 +26,12 @@
         <div class="joystick" style="width:20%">
             <br>
             <form action="/joystick" method="POST">
-                <button type="submit" name="direcao" value="up">Y +</button>
-                <button type="submit" name="direcao" value="down">Y -</button>
                 <button type="submit" name="direcao" value="right">X +</button>
                 <button type="submit" name="direcao" value="left">X -</button>
+                <button type="submit" name="direcao" value="up">Y +</button>
+                <button type="submit" name="direcao" value="down">Y -</button>
                 <button type="submit" name="direcao" value="front">Z +</button>
                 <button type="submit" name="direcao" value="back">Z -</button>
-                <button type="submit">Mover</button> 
             </form>
             <br>
 
@@ -69,7 +68,16 @@
             </div>
         </div> -->
         </div>
+        <!-- <div class="reset">
+            <form action="/reset" method="POST">
+                <input type="submit" value="Resetar coordenadas">
+            </form>
+        </div> -->
         <div class="historico_coordenadas">
+            <br>
+            {% if x is none or y is none or z is none %}
+            <p>As coordenadas ainda não foram modificadas.</p>
+            {% else %}
             <br>
             <table>
                 <thead>
@@ -89,6 +97,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+            {% endif %}
         </div>
     </div>
 </body>
