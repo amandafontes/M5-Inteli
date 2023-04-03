@@ -130,15 +130,10 @@ def resetar_coordenadas():
 # Rota para retornar a última posição do robô
 @app.route('/posicao_atual', methods=['GET'])
 def retornar_posicao():
-    
+
     posicao_atual = session_db.query(Coordenadas).order_by(Coordenadas.id.desc()).first()
 
-    if posicao_atual is not None:
-        coordenada = {"x": posicao_atual.x, "y": posicao_atual.y, "z": posicao_atual.z}
-    else:
-        coordenada = {"x": 0, "y": 0, "z": 0}
-
-    return jsonify(coordenada)
+    return f'{posicao_atual.x}/{posicao_atual.y}/{posicao_atual.z}'
 
 # Mantém a aplicação rodando
 if __name__ == '__main__':

@@ -49,35 +49,12 @@
             </form> -->
 
             <!-- Referencia para joystick: https://stackoverflow.com/questions/34639583/how-can-i-create-responsive-joystick-layout-buttons-in-html/34644069#34644069?newreg=d1f0ec4b574b4f6abe4a1de9f80cd1cb -->
-
-        <!-- <div class="input_coordenadas">
-        <div class="posicao_atual">
-            <div>
-
-                {% if x is none or y is none or z is none %}
-                <p>As coordenadas ainda não foram modificadas.</p>
-                {% else %}
             
-                <p>X: {{ x }}</p>
-                <p>Y: {{ y }}</p>
-                <p>Z: {{ z }}</p>
-                <p>R: {{ r }}</p>
-            
-                {% endif %}
-
-            </div>
-        </div> -->
-        </div>
-        <div>
-            <form method="POST" action="{{ url_for('resetar_coordenadas') }}">
+        <div class="reset">
+            <form method="POST" action="/reset">
                 <input type="submit" value="Resetar coordenadas">
             </form>
         </div>
-        <!-- <div class="reset">
-            <form action="/reset" method="POST">
-                <input type="submit" value="Resetar coordenadas">
-            </form>
-        </div> -->
         <div class="historico_coordenadas">
             <br>
             {% if x is none or y is none or z is none %}

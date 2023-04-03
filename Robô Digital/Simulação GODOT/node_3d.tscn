@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://ckfjdfh4sgm4f"]
 
-[ext_resource type="Script" path="res://Request_button.gd" id="1_367r4"]
+[ext_resource type="Script" path="res://node_3d.gd" id="1_c5itm"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kgp7u"]
 
@@ -10,60 +10,66 @@
 radius = 1.703
 
 [node name="Node3D" type="Node3D"]
+script = ExtResource("1_c5itm")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="Base_StaticBody3D" type="StaticBody3D" parent="."]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="Base_CollisionShape3D" type="CollisionShape3D" parent="Base_StaticBody3D"]
 shape = SubResource("BoxShape3D_kgp7u")
 
-[node name="CSGBox3D" type="CSGBox3D" parent="StaticBody3D"]
+[node name="Base_CSGBox3D" type="CSGBox3D" parent="Base_StaticBody3D"]
+size = Vector3(1.89868, 1, 1)
 
-[node name="RigidBody3D" type="RigidBody3D" parent="."]
+[node name="PinJoint3D" type="PinJoint3D" parent="Base_StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.128651, -0.0199909, -0.232004)
+node_a = NodePath("..")
+node_b = NodePath("../../Ponta_RigidBody3D")
+
+[node name="Ponta_RigidBody3D" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.060854, 3, 3.51725)
 gravity_scale = 0.0
+freeze = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+[node name="Ponta_CollisionShape3D" type="CollisionShape3D" parent="Ponta_RigidBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0347755, 0.140568, 0.00412989)
 shape = SubResource("BoxShape3D_oek3r")
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="RigidBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.033313, 0.13626, 0.0181869)
+[node name="Ponta_CSGBox3D2" type="CSGBox3D" parent="Ponta_RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.033313, 0.13626, 0.0181868)
+size = Vector3(0.694392, 0.446536, 0.002)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.795442, 0, -0.60603, 0, 1, 0, 0.60603, 0, 0.795442, -6.04442, 4.95527, 9.76972)
 
-[node name="PinJoint3D2" type="PinJoint3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.128651, 4.39036, -0.232004)
-node_a = NodePath("../RigidBody3D2")
-node_b = NodePath("../RigidBody3D")
-
-[node name="PinJoint3D" type="PinJoint3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.128651, 0.137841, -0.232004)
-node_a = NodePath("../StaticBody3D")
-node_b = NodePath("../RigidBody3D")
-
-[node name="RigidBody3D2" type="RigidBody3D" parent="."]
+[node name="Junta_RigidBody3D" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0.517247)
 gravity_scale = 0.0
+freeze = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D2"]
+[node name="Junta_CollisionShape3D" type="CollisionShape3D" parent="Junta_RigidBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0331594, -0.061883, -0.163537)
 shape = SubResource("SphereShape3D_oq56f")
 
-[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.95339, 0.353434)
+[node name="Junta_CSGSphere3D" type="CSGSphere3D" parent="Junta_RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0466099, -0.163813)
+radius = 0.349921
+
+[node name="PinJoint3D2" type="PinJoint3D" parent="Junta_RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0126686, -0.240188, -0.185748)
+node_a = NodePath("..")
+node_b = NodePath("../../Ponta_RigidBody3D")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Request_button" type="Button" parent="CanvasLayer"]
-offset_left = 900.0
-offset_top = 541.0
-offset_right = 1128.0
-offset_bottom = 619.0
-text = "Alterar Posição"
-script = ExtResource("1_367r4")
+offset_left = 912.0
+offset_top = 553.0
+offset_right = 1140.0
+offset_bottom = 631.0
+text = "Alterar posição"
 
 [node name="HTTPRequest" type="HTTPRequest" parent="CanvasLayer/Request_button"]
 
-[connection signal="button_down" from="CanvasLayer/Request_button" to="CanvasLayer/Request_button" method="_on_Request_button_button_down"]
-[connection signal="request_completed" from="CanvasLayer/Request_button/HTTPRequest" to="CanvasLayer/Request_button" method="_on_http_request_request_completed"]
+[connection signal="pressed" from="CanvasLayer/Request_button" to="." method="_on_request_button_pressed"]
+[connection signal="request_completed" from="CanvasLayer/Request_button/HTTPRequest" to="." method="_on_request_button_pressed"]
+[connection signal="request_completed" from="CanvasLayer/Request_button/HTTPRequest" to="." method="_on_http_request_request_completed"]
